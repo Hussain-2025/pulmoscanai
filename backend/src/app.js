@@ -18,7 +18,17 @@ const aiRoutes = require("./routes/aiRoutes");
 const app = express();
 
 app.use(helmet());
-app.use(cors({ origin: env.clientUrl, credentials: true }));
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || origin.endsWith(".vercel.app") || origin.includes("localhost") || origin === env.clientUrl) {
+        return callback(null, true);
+      }
+      return callback(null, true);
+    },
+    credentials: true,
+  })
+);
 app.use(express.json({ limit: "25mb" }));
 if (env.nodeEnv !== "test") {
   app.use(morgan("dev"));

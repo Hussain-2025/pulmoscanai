@@ -3,7 +3,11 @@ const mongoose = require("mongoose");
 const env = require("./env");
 
 if (env.mongodbUri && env.mongodbUri.startsWith("mongodb+srv://")) {
-  dns.setServers(["8.8.8.8", "8.8.4.4"]);
+  try {
+    dns.setServers(["8.8.8.8", "8.8.4.4"]);
+  } catch (err) {
+    // Container networking fallback
+  }
 }
 
 async function connectDB() {
