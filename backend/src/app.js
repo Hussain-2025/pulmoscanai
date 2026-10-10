@@ -36,6 +36,16 @@ if (env.nodeEnv !== "test") {
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
+app.get("/", (req, res) => {
+  res.json({
+    success: true,
+    message: "PulmoAI Clinical Intelligence API is online and operational",
+    version: "1.0.0",
+    docs: "/api-docs",
+    health: "/api/health",
+  });
+});
+
 app.get("/api/health", (req, res) => {
   res.json({ success: true, data: { status: "ok" } });
 });
